@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import Button from "./common/Button";
 
-export default function SubmissionForm() {
-    const [selectedType, setSelectedType] = useState('expense'); 
-    const [ formData, setFormData ] = useState( {
+export default function SubmissionForm({ onFormSubmit }) {
+    const initialFormData = {
         expense: {
             category: 'Education',
             amount: '',
@@ -14,29 +14,51 @@ export default function SubmissionForm() {
             amount: '',
             date: ''
         }
-    } );
-
-    const handleTypeChange = ( type ) =>
-    {
-        setSelectedType( type );
     };
 
-    const handleChange = ( e ) =>
-    {
-        const { name, value } = e.target;
-        setFormData( {
+    const [formData, setFormData] = useState(initialFormData);
+    const [selectedType, setSelectedType] = useState('expense');
+
+    const handleTypeChange = (type) => {
+        setSelectedType(type);
+        setFormData({
             ...formData,
-            [ selectedType ]: {
-                ...formData[ selectedType ],
-                [ name ]: value
+            [type]: {
+                category: type === 'expense' ? 'Education' : 'Outsourcing',
+                amount: '',
+                date: ''
             }
-        } );
+        });
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [selectedType]: {
+                ...formData[selectedType],
+                [name]: value
+            }
+        });
     };
 
     const handleSubmit = ( e ) =>
     {
         e.preventDefault();
-        alert( `Form Data Submitted: ${selectedType} `);
+        const currentData = formData[ selectedType ];
+        
+        alert( `Form Data Submitted: ${selectedType}\nCategory: ${currentData.category}\nAmount: ${currentData.amount}\nDate: ${currentData.date}` );
+
+        onFormSubmit( formData, selectedType );
+        
+        setFormData( {
+            ...formData,
+            [ selectedType ]: {
+                category: selectedType === 'expense' ? 'Education' : 'Outsourcing',
+                amount: '',
+                date: ''
+            }
+        } );
     };
 
     return (
@@ -55,7 +77,7 @@ export default function SubmissionForm() {
                     </div>
                     <div
                         onClick={() => handleTypeChange('income')}
-                        className={`cursor-pointer text-center flex-1 px-4 py-2  hover:text-slate-900 ${selectedType === 'income' ? 'bg-teal-600 text-white duration-200 transition-all' : ''}`}
+                        className={`cursor-pointer text-center flex-1 px-4 py-2 hover:text-slate-900 ${selectedType === 'income' ? 'bg-teal-600 text-white duration-200 transition-all' : ''}`}
                     >
                         Income
                     </div>
