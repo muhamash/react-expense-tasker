@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import RightDivision from "./RightDivision";
 import SubmissionForm from "./SubmissionForm";
+import DemoCard from './common/DemoCard';
 
 export default function Parent ()
 {
@@ -26,8 +27,14 @@ export default function Parent ()
     return (
         <div className="relative mx-auto mt-10 w-full max-w-7xl">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <SubmissionForm onFormSubmit={handleFormSubmit}/>
-                <RightDivision balance={balance} totalExpense={totalExpense} totalIncome={totalIncome}/>
+                <SubmissionForm onFormSubmit={ handleFormSubmit } />
+                <div className="lg:col-span-2">
+                    <RightDivision balance={ balance } totalExpense={ totalExpense } totalIncome={ totalIncome } />
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
+                        <DemoCard />
+                        <DemoCard />
+                    </div>
+                </div>
             </div>
         </div>
     );
