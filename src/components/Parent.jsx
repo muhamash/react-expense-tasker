@@ -1,3 +1,4 @@
+ 
 // import React from 'react'
 import { useState } from 'react';
 import RightDivision from "./RightDivision";
@@ -7,22 +8,41 @@ import DemoCard from './common/DemoCard';
 export default function Parent ()
 {
     const [totalIncome, setTotalIncome] = useState(2000); 
-    const [ totalExpense, setTotalExpense ] = useState( 0 ); 
+    const [ totalExpense, setTotalExpense ] = useState( 0 );
+    const [expenses, setExpenses] = useState([]);
+    const [ income, setIncome ] = useState( [ {
+        title: "Salary",
+        date: "5 jan 2024",
+        amount: 1000
+    },
+    {
+        title: "Salary",
+        date: "5 jan 2024",
+        amount: 1000
+    }
 
+    ] );
     const balance = totalIncome - totalExpense;
 
     const handleFormSubmit = ( formData, selectedType ) =>
     {
-        const amount = parseFloat( formData[selectedType].amount );
+        const amount = parseFloat( formData[ selectedType ].amount );
+        console.log( formData, selectedType, formData[selectedType] );
 
         if ( selectedType === "income" )
         {
             setTotalIncome( prevIncome => prevIncome + amount );
+            setIncome( prevIncome => [ ...prevIncome, formData[ selectedType ] ] );
+
         } else if ( selectedType === "expense" )
         {
             setTotalExpense( prevExpense => prevExpense + amount );
+            setExpenses( prevExpense => [ ...prevExpense, formData[ selectedType ] ] );
         }
+
     };
+
+    console.log( income, expenses );
     
     return (
         <div className="relative mx-auto mt-10 w-full max-w-7xl">
@@ -31,7 +51,7 @@ export default function Parent ()
                 <div className="lg:col-span-2">
                     <RightDivision balance={ balance } totalExpense={ totalExpense } totalIncome={ totalIncome } />
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
-                        <DemoCard />
+                        <DemoCard icon={true}/>
                         <DemoCard />
                     </div>
                 </div>

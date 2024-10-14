@@ -2,20 +2,21 @@
 import { useState } from 'react';
 import Button from "./common/Button";
 
-export default function SubmissionForm({ onFormSubmit }) {
-    const initialFormData = {
-        expense: {
-            category: 'Education',
-            amount: '',
-            date: ''
-        },
-        income: {
-            category: 'Outsourcing',
-            amount: '',
-            date: ''
-        }
-    };
+const initialFormData = {
+    expense: {
+        category: 'Education',
+        amount: '',
+        date: ''
+    },
+    income: {
+        category: 'Outsourcing',
+        amount: '',
+        date: ''
+    }
+};
 
+
+export default function SubmissionForm({ onFormSubmit }) {
     const [formData, setFormData] = useState(initialFormData);
     const [selectedType, setSelectedType] = useState('expense');
 
@@ -128,6 +129,7 @@ export default function SubmissionForm({ onFormSubmit }) {
                             type="number"
                             name="amount"
                             id="amount"
+                            min="0" 
                             value={formData[selectedType].amount}
                             onChange={handleChange}
                             placeholder="12931"
