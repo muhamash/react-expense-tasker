@@ -1,11 +1,16 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
 
-export default function BalanceCard({money, text}) {
+export default function BalanceCard({ text, money }) {
+    const isNegative = money < 0;
     return (
-        <div className="bg-[#F9FAFB] flex lg:max-w-xs flex-col px-4 py-4">
-            <dt className="text-base leading-7 text-gray-600">{ text }</dt>
-            <dd className="order-first text-xl font-semibold tracking-tight text-gray-700 sm:text-3xl">BDT { money }</dd>
+        <div className="flex flex-col p-6">
+            <dt className="text-lg font-medium leading-6 text-gray-900">{text}</dt>
+            <dd 
+                className={`mt-2 text-3xl font-semibold ${isNegative ? 'text-red-600' : 'text-gray-900'}`}
+            >
+                ৳ {money.toFixed(2)}
+            </dd>
         </div>
     );
 }
