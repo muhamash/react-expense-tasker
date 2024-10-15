@@ -7,9 +7,9 @@ import DemoCard from './common/DemoCard';
 
 export default function Parent ()
 {
-    const [totalIncome, setTotalIncome] = useState(2000); 
+    const [ totalIncome, setTotalIncome ] = useState( 2000 );
     const [ totalExpense, setTotalExpense ] = useState( 0 );
-    const [expenses, setExpenses] = useState([]);
+    const [ expenses, setExpenses ] = useState( [] );
     const [ income, setIncome ] = useState( [ {
         title: "Salary",
         date: "5 jan 2024",
@@ -17,29 +17,32 @@ export default function Parent ()
     },
     {
         title: "Salary",
-        date: "5 jan 2024",
+        date: "6 jan 2024",
         amount: 1000
     }
-
     ] );
-    const balance = totalIncome - totalExpense;
 
+    const balance = totalIncome - totalExpense;
     const handleFormSubmit = ( formData, selectedType ) =>
     {
+        const updatedData = {
+            ...formData[ selectedType ],
+            title: formData[ selectedType ].category,
+            date: formData[ selectedType ].date,
+            amount:formData[selectedType].amount
+        }
         const amount = parseFloat( formData[ selectedType ].amount );
-        console.log( formData, selectedType, formData[selectedType] );
-
+        console.log( formData, selectedType, formData[selectedType], updatedData );
         if ( selectedType === "income" )
         {
             setTotalIncome( prevIncome => prevIncome + amount );
-            setIncome( prevIncome => [ ...prevIncome, formData[ selectedType ] ] );
+            setIncome( prevIncome => [ ...prevIncome, updatedData ] );
 
         } else if ( selectedType === "expense" )
         {
             setTotalExpense( prevExpense => prevExpense + amount );
-            setExpenses( prevExpense => [ ...prevExpense, formData[ selectedType ] ] );
+            setExpenses( prevExpense => [ ...prevExpense, updatedData ] );
         }
-
     };
 
     console.log( income, expenses );
@@ -51,8 +54,8 @@ export default function Parent ()
                 <div className="lg:col-span-2">
                     <RightDivision balance={ balance } totalExpense={ totalExpense } totalIncome={ totalIncome } />
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
-                        <DemoCard icon={true}/>
-                        <DemoCard />
+                        <DemoCard icon={ true } data={ income } />
+                        <DemoCard data={expenses}/>
                     </div>
                 </div>
             </div>
