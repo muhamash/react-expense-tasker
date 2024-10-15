@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
 
-export default function DataCard({date, title, amount}) {
+export default function DataCard({date, title, amount, onDelete, onEdit}) {
     return (
         <div className="flex justify-between items-center py-2 relative group cursor-pointer w-full">
             <div>
@@ -18,7 +18,7 @@ export default function DataCard({date, title, amount}) {
                 <div
                     className="translate-x-5 group-hover:translate-x-0 opacity-0 group-hover:opacity-100 absolute right-0 top-1/2 -translate-y-1/2 transition-all"
                 >
-                    <button className="hover:text-teal-600" role="button" title="Edit Button">
+                    <button onClick={onEdit} className="hover:text-teal-600" role="button" title="Edit Button">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="18"
@@ -36,7 +36,7 @@ export default function DataCard({date, title, amount}) {
                         </svg>
                     </button>
 
-                    <button className="hover:text-red-600" role="button" title="Delete">
+                    <button onClick={onDelete} className="hover:text-red-600" role="button" title="Delete">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="18"
