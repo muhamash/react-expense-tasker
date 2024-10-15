@@ -15,51 +15,45 @@ const initialFormData = {
     }
 };
 
-
-export default function SubmissionForm({ onFormSubmit }) {
-    const [formData, setFormData] = useState(initialFormData);
-    const [selectedType, setSelectedType] = useState('expense');
+export default function SubmissionForm({ onFormSubmit, selectedType, editData, setSelectedType }) {
+    const [formData, setFormData] = useState(() => {
+        if (editData) {
+            return {
+                ...initialFormData,
+                [selectedType]: {
+                    category: editData.title,
+                    amount: editData.amount,
+                    date: editData.date
+                }
+            };
+        }
+        return initialFormData;
+    });
 
     const handleTypeChange = (type) => {
         setSelectedType(type);
-        setFormData({
-            ...formData,
-            [type]: {
-                category: type === 'expense' ? 'Education' : 'Outsourcing',
-                amount: '',
-                date: ''
-            }
-        });
+        setFormData(initialFormData);
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setFormData((prevData) => ({
+            ...prevData,
             [selectedType]: {
-                ...formData[selectedType],
+                ...prevData[selectedType],
                 [name]: value
             }
-        });
+        }));
     };
 
-    const handleSubmit = ( e ) =>
-    {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const currentData = formData[ selectedType ];
-        
-        alert( `Form Data Submitted: ${selectedType}\nCategory: ${currentData.category}\nAmount: ${currentData.amount}\nDate: ${currentData.date}` );
+        const currentData = formData[selectedType];
 
-        onFormSubmit( formData, selectedType );
-        
-        setFormData( {
-            ...formData,
-            [ selectedType ]: {
-                category: selectedType === 'expense' ? 'Education' : 'Outsourcing',
-                amount: '',
-                date: ''
-            }
-        } );
+        alert(`Form Data Submitted: ${selectedType}\nCategory: ${currentData.category}\nAmount: ${currentData.amount}\nDate: ${currentData.date}`);
+
+        onFormSubmit(formData, selectedType);
+        setFormData(initialFormData); 
     };
 
     return (
@@ -67,9 +61,7 @@ export default function SubmissionForm({ onFormSubmit }) {
             <h2 className="text-3xl font-semibold leading-7 text-gray-800 text-center">Expense Tracker</h2>
 
             <form onSubmit={handleSubmit}>
-                <div
-                    className="flex divide-x divide-slate-400/20 overflow-hidden rounded-md bg-white text-[0.8125rem] font-medium leading-5 text-slate-700 shadow-sm ring-1 ring-slate-700/10 mt-6"
-                >
+                <div className="flex divide-x divide-slate-400/20 overflow-hidden rounded-md bg-white text-[0.8125rem] font-medium leading-5 text-slate-700 shadow-sm ring-1 ring-slate-700/10 mt-6">
                     <div
                         onClick={() => handleTypeChange('expense')}
                         className={`cursor-pointer text-center flex-1 px-4 py-2 hover:text-slate-900 ${selectedType === 'expense' ? 'bg-teal-600 text-white duration-200 transition-all' : ''}`}
@@ -87,37 +79,33 @@ export default function SubmissionForm({ onFormSubmit }) {
                 <div className="mt-3">
                     <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">Category</label>
                     <div className="mt-2">
-                        {selectedType === 'expense' ? (
-                            <select
-                                id="category"
-                                name="category"
-                                value={formData.expense.category}
-                                onChange={handleChange}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
-                            >
-                                <option>Education</option>
-                                <option>Food</option>
-                                <option>Health</option>
-                                <option>Bill</option>
-                                <option>Insurance</option>
-                                <option>Tax</option>
-                                <option>Transport</option>
-                                <option>Telephone</option>
-                            </select>
-                        ) : (
-                            <select
-                                id="category"
-                                name="category"
-                                value={formData.income.category}
-                                onChange={handleChange}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
-                            >
-                                <option>Salary</option>
-                                <option>Outsourcing</option>
-                                <option>Bond</option>
-                                <option>Dividend</option>
-                            </select>
-                        )}
+                        <select
+                            id="category"
+                            name="category"
+                            value={formData[selectedType].category}
+                            onChange={handleChange}
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
+                        >
+                            {selectedType === 'expense' ? (
+                                <>
+                                    <option>Education</option>
+                                    <option>Food</option>
+                                    <option>Health</option>
+                                    <option>Bill</option>
+                                    <option>Insurance</option>
+                                    <option>Tax</option>
+                                    <option>Transport</option>
+                                    <option>Telephone</option>
+                                </>
+                            ) : (
+                                <>
+                                    <option>Salary</option>
+                                    <option>Outsourcing</option>
+                                    <option>Bond</option>
+                                    <option>Dividend</option>
+                                </>
+                            )}
+                        </select>
                     </div>
                 </div>
 
@@ -129,7 +117,7 @@ export default function SubmissionForm({ onFormSubmit }) {
                             type="number"
                             name="amount"
                             id="amount"
-                            min="0" 
+                            min="0"
                             value={formData[selectedType].amount}
                             onChange={handleChange}
                             placeholder="12931"
@@ -153,11 +141,9 @@ export default function SubmissionForm({ onFormSubmit }) {
                     </div>
                 </div>
 
-                <Button
-                    type="submit"
-                    className="mt-6 rounded-md bg-teal-600 px-8 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 w-full"
-                    text={"Save"}
-                />
+                <div className="mt-4">
+                    <Button text="Submit" type="submit" className={"mt-6 rounded-md bg-teal-600 px-8 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 w-full"}/>
+                </div>
             </form>
         </div>
     );
