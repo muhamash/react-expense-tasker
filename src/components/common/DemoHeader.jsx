@@ -22,7 +22,7 @@ export default function DemoHeader({ icon }) {
     };
 
     return (
-        <div className="flex items-center justify-between gap-2 bg-black/10 backdrop-blur-sm mix-blend-multiply py-4 px-4 rounded-md">
+        <div className="flex items-center justify-between gap-2  py-4 px-4 rounded-md bg-slate-200">
                 {/* Icon Section */}
             <div className="flex items-center gap-2">
                 <div className="h-10 w-10 bg-teal-600 text-white rounded-md text-center object-center place-content-center text-base">
@@ -106,7 +106,7 @@ export default function DemoHeader({ icon }) {
                     <div
                         className={`${
                             show.sort ? "absolute" : "hidden"
-                        } z-10 mt-2 left-5 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+                        } z-10 mt-2 left-5 w-56 origin-top-right rounded-md bg-slate-300 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="menu-button"
@@ -173,7 +173,7 @@ export default function DemoHeader({ icon }) {
                     <div
                         className={`${
                             show.filter ? "absolute" : "hidden"
-                        } right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+                        } right-0 z-10 mt-2 w-56 origin-top-right rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none bg-slate-300`}
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="filter-button"

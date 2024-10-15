@@ -4,12 +4,9 @@ import DemoHeader from "./DemoHeader";
 
 export default function DemoCard({ icon, data }) {
     return (
-        <div className="relative border rounded-md h-[350px]">
-            <div className="sticky">
-                <DemoHeader icon={icon} />
-            </div>
-
-            <div className="p-4 divide-y w-full h-[275px] relative hover:overflow-y-scroll overflow-x-hidden">
+        <div className="relative border rounded-md h-[350px] ">
+            <DemoHeader icon={icon} />
+            <div className="p-4 divide-y w-full h-[275px] relative overflow-y-scroll overflow-x-hidden">
                 {data?.length > 4 && (
                     <div className="absolute top-0 left-0 w-full text-center text-[10px] text-gray-400">
                         Please scroll if data overflows
