@@ -3,7 +3,7 @@
 
 export default function DataCard({date, title, amount}) {
     return (
-        <div className="flex justify-between items-center py-2 relative group cursor-pointer">
+        <div className="flex justify-between items-center py-2 relative group cursor-pointer w-full">
             <div>
                 <h3 className="text-base font-medium leading-7 text-gray-600">{ title }</h3>
                 <p className="text-xs text-gray-600">

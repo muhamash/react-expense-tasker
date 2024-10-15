@@ -22,7 +22,7 @@ export default function DemoHeader({ icon }) {
     };
 
     return (
-        <div className="flex items-center justify-between gap-2 bg-[#F9FAFB] py-4 px-4 rounded-md">
+        <div className="flex items-center justify-between gap-2 bg-black/10 backdrop-blur-sm mix-blend-multiply py-4 px-4 rounded-md">
                 {/* Icon Section */}
             <div className="flex items-center gap-2">
                 <div className="h-10 w-10 bg-teal-600 text-white rounded-md text-center object-center place-content-center text-base">

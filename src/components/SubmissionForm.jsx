@@ -63,7 +63,7 @@ export default function SubmissionForm({ onFormSubmit }) {
     };
 
     return (
-        <div className="p-6 py-8 bg-[#F9FAFB] border rounded-md hover:shadow-md">
+        <div className="p-6 py-8 bg-[#F9FAFB] border rounded-md hover:shadow-md min-h-[500px]">
             <h2 className="text-3xl font-semibold leading-7 text-gray-800 text-center">Expense Tracker</h2>
 
             <form onSubmit={handleSubmit}>
