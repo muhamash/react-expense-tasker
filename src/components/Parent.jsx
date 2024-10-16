@@ -18,7 +18,6 @@ export default function Parent() {
         { id: 5, type: 'income', category: "Salary", date: "2024-01-06", amount: 1000 },
         { id: 6, type: 'income', category: "Outsourcing", date: "2024-01-06", amount: 5000 },
     ] );
-
     const [formData, setFormData] = useState(initialFormData);
     const [selectedType, setSelectedType] = useState("expense");
     const [editTransaction, setEditTransaction] = useState(null);
@@ -26,24 +25,6 @@ export default function Parent() {
     const [filterOptions, setFilterOptions] = useState({ income: [], expense: [] });
 
     const calculateTotal = ( items ) => items.reduce( ( total, item ) => total + parseFloat( item.amount ), 0 );
-
-    const handleFormSubmit = () =>
-    {
-        const updatedTransaction = {
-            id: editTransaction ? editTransaction.id : Date.now(),
-            ...formData,
-            amount: parseFloat( formData.amount ),
-            type: selectedType,
-        };
-
-        setTransactions( ( prev ) =>
-            editTransaction
-                ? prev.map( ( item ) => ( item.id === editTransaction.id ? updatedTransaction : item ) )
-                : [ ...prev, updatedTransaction ]
-        );
-
-        resetForm();
-    };
 
     const handleDelete = ( id ) =>
     {
@@ -64,6 +45,24 @@ export default function Parent() {
         setSelectedType( 'expense' );
     };
 
+    const handleFormSubmit = () =>
+    {
+        const updatedTransaction = {
+            id: editTransaction ? editTransaction.id : Date.now(),
+            ...formData,
+            amount: parseFloat( formData.amount ),
+            type: selectedType,
+        };
+
+        setTransactions( ( prev ) =>
+            editTransaction
+                ? prev.map( ( item ) => ( item.id === editTransaction.id ? updatedTransaction : item ) )
+                : [ ...prev, updatedTransaction ]
+        );
+
+        resetForm();
+    };
+
     const handleSort = ( type, order ) =>
     {
         setSortOrder( ( prev ) => ( { ...prev, [ type ]: order } ) );
@@ -82,7 +81,7 @@ export default function Parent() {
         let result = [ ...data ];
         if ( filters.length )
         {
-            result = result.filter( ( item ) => filters.includes( item.category ) ); // Change 'item.title' to 'item.category'
+            result = result.filter( ( item ) => filters.includes( item.category ) );
         }
         if ( order )
         {
