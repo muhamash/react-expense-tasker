@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
 // import React from 'react'
 
-export default function DataCard({date, title, amount, onDelete, onEdit}) {
+export default function DataCard ( { date, title, amount, onDelete, onEdit } )
+{
+    // console.log(title)
     return (
         <div className="flex justify-between items-center py-2 relative group cursor-pointer w-full">
             <div>
                 <h3 className="text-base font-medium leading-7 text-gray-600">{ title }</h3>
                 <p className="text-xs text-gray-600">
-                    { new Date( date ).toLocaleDateString( 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' } ) }
+                    {new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                 </p>
             </div>
             <div className="flex items-center gap-2">

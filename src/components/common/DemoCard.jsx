@@ -2,7 +2,10 @@
 import DataCard from "./DataCard";
 import DemoHeader from "./DemoHeader";
 
-export default function DemoCard({ icon, data, type, onDelete, onEdit, onSort, onFilter }) {
+export default function DemoCard ( { icon, data, type, onDelete, onEdit, onSort, onFilter } )
+{
+    console.log( data );
+
     return (
         <div className="relative border rounded-md h-[350px]">
             <DemoHeader icon={ icon } onSort={ onSort } onFilter={ onFilter } />
@@ -20,7 +23,7 @@ export default function DemoCard({ icon, data, type, onDelete, onEdit, onSort, o
                     data?.map( ( d ) => (
                         <DataCard
                             key={ d.id }
-                            title={ d.title }
+                            title={ d.category }
                             amount={ d.amount }
                             date={ d.date }
                             onDelete={ () => onDelete( d.id, type ) }
