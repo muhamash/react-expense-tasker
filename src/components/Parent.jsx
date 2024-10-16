@@ -10,14 +10,14 @@ const initialFormData = {
 };
 
 export default function Parent() {
-    const [transactions, setTransactions] = useState([
+    const [ transactions, setTransactions ] = useState( [
         { id: 1, type: 'expense', category: "Education", date: "2024-01-05", amount: 1600 },
         { id: 2, type: 'expense', category: "Bill", date: "2024-01-06", amount: 1020 },
         { id: 3, type: 'expense', category: "Transport", date: "2024-01-06", amount: 1500 },
         { id: 4, type: 'income', category: "Salary", date: "2024-01-05", amount: 1003 },
         { id: 5, type: 'income', category: "Salary", date: "2024-01-06", amount: 1000 },
         { id: 6, type: 'income', category: "Outsourcing", date: "2024-01-06", amount: 5000 },
-    ]);
+    ] );
 
     const [formData, setFormData] = useState(initialFormData);
     const [selectedType, setSelectedType] = useState("expense");
@@ -25,59 +25,68 @@ export default function Parent() {
     const [sortOrder, setSortOrder] = useState({ income: null, expense: null });
     const [filterOptions, setFilterOptions] = useState({ income: [], expense: [] });
 
-    const calculateTotal = (items) => items.reduce((total, item) => total + parseFloat(item.amount), 0);
+    const calculateTotal = ( items ) => items.reduce( ( total, item ) => total + parseFloat( item.amount ), 0 );
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = () =>
+    {
         const updatedTransaction = {
             id: editTransaction ? editTransaction.id : Date.now(),
             ...formData,
-            amount: parseFloat(formData.amount),
+            amount: parseFloat( formData.amount ),
             type: selectedType,
         };
 
-        setTransactions((prev) =>
+        setTransactions( ( prev ) =>
             editTransaction
-                ? prev.map((item) => (item.id === editTransaction.id ? updatedTransaction : item))
-                : [...prev, updatedTransaction]
+                ? prev.map( ( item ) => ( item.id === editTransaction.id ? updatedTransaction : item ) )
+                : [ ...prev, updatedTransaction ]
         );
 
         resetForm();
     };
 
-    const handleDelete = (id) => {
-        setTransactions(transactions.filter((item) => item.id !== id));
+    const handleDelete = ( id ) =>
+    {
+        setTransactions( transactions.filter( ( item ) => item.id !== id ) );
     };
 
-    const handleEdit = (data) => {
-        setEditTransaction(data);
-        setFormData({ category: data.category, amount: data.amount, date: data.date });
-        setSelectedType(data.type);
+    const handleEdit = ( data ) =>
+    {
+        setEditTransaction( data );
+        setFormData( { category: data.category, amount: data.amount, date: data.date } );
+        setSelectedType( data.type );
     };
 
-    const resetForm = () => {
-        setEditTransaction(null);
-        setFormData(initialFormData);
-        setSelectedType('expense');
+    const resetForm = () =>
+    {
+        setEditTransaction( null );
+        setFormData( initialFormData );
+        setSelectedType( 'expense' );
     };
 
-    const handleSort = (type, order) => {
-        setSortOrder((prev) => ({ ...prev, [type]: order }));
+    const handleSort = ( type, order ) =>
+    {
+        setSortOrder( ( prev ) => ( { ...prev, [ type ]: order } ) );
     };
 
-    const handleFilter = (type, filters) => {
-        setFilterOptions((prev) => ({ ...prev, [type]: filters }));
+    const handleFilter = ( type, filters ) =>
+    {
+        setFilterOptions( ( prev ) => ( { ...prev, [ type ]: filters } ) );
     };
 
-    const applySortAndFilter = (data, type) => {
-        const order = sortOrder[type];
-        const filters = filterOptions[type];
+    const applySortAndFilter = ( data, type ) =>
+    {
+        const order = sortOrder[ type ];
+        const filters = filterOptions[ type ];
 
-        let result = [...data];
-        if (filters.length) {
-            result = result.filter((item) => filters.includes(item.category)); // Change 'item.title' to 'item.category'
+        let result = [ ...data ];
+        if ( filters.length )
+        {
+            result = result.filter( ( item ) => filters.includes( item.category ) ); // Change 'item.title' to 'item.category'
         }
-        if (order) {
-            result.sort((a, b) => (order === 'asc' ? a.amount - b.amount : b.amount - a.amount));
+        if ( order )
+        {
+            result.sort( ( a, b ) => ( order === 'asc' ? a.amount - b.amount : b.amount - a.amount ) );
         }
         return result;
     };
@@ -93,32 +102,32 @@ export default function Parent() {
         <div className="relative mx-auto mt-10 w-full max-w-7xl">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <SubmissionForm
-                    onFormSubmit={handleFormSubmit}
-                    editData={editTransaction}
-                    selectedType={selectedType}
-                    setSelectedType={setSelectedType}
-                    formData={formData}
-                    setFormData={setFormData}
+                    onFormSubmit={ handleFormSubmit }
+                    editData={ editTransaction }
+                    selectedType={ selectedType }
+                    setSelectedType={ setSelectedType }
+                    formData={ formData }
+                    setFormData={ setFormData }
                 />
                 <div className="lg:col-span-2">
-                    <RightDivision balance={balance} totalExpense={totalExpenses} totalIncome={totalIncome} />
+                    <RightDivision balance={ balance } totalExpense={ totalExpenses } totalIncome={ totalIncome } />
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
                         <DemoCard
-                            icon={true}
-                            data={sortedFilteredIncome}
+                            icon={ true }
+                            data={ sortedFilteredIncome }
                             type="income"
-                            onDelete={handleDelete}
-                            onEdit={handleEdit}
-                            onSort={(order) => handleSort('income', order)}
-                            onFilter={(filters) => handleFilter('income', filters)}
+                            onDelete={ handleDelete }
+                            onEdit={ handleEdit }
+                            onSort={ ( order ) => handleSort( 'income', order ) }
+                            onFilter={ ( filters ) => handleFilter( 'income', filters ) }
                         />
                         <DemoCard
-                            data={sortedFilteredExpenses}
+                            data={ sortedFilteredExpenses }
                             type="expense"
-                            onDelete={handleDelete}
-                            onEdit={handleEdit}
-                            onSort={(order) => handleSort('expense', order)}
-                            onFilter={(filters) => handleFilter('expense', filters)}
+                            onDelete={ handleDelete }
+                            onEdit={ handleEdit }
+                            onSort={ ( order ) => handleSort( 'expense', order ) }
+                            onFilter={ ( filters ) => handleFilter( 'expense', filters ) }
                         />
                     </div>
                 </div>
