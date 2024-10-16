@@ -1,11 +1,65 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import FilterField from './FilterField';
 
-export default function DemoHeader({ icon }) {
+const IncomeOptions = [
+    {
+    id: 'Salary',
+    text: 'Salary'
+    },
+    {
+    id: 'Outsourcing',
+    text: 'Outsourcing'
+    },
+    {
+    id: 'Bond',
+    text: 'Bond'
+    },
+    {
+    id: 'Dividend',
+    text: 'Dividend'
+    }
+];
+
+const ExpenseOptions = [
+    {
+    id: 'Education',
+    text: 'Education'
+    },
+    {
+    id: 'Health',
+    text: 'Health'
+    },
+    {
+    id: 'Food',
+    text: 'Food'
+    },
+    {
+    id: 'Bill',
+    text: 'Bill'
+    },
+    {
+    id: 'Insurance',
+    text: 'Insurance'
+    },
+    {
+    id: 'Tax',
+    text: 'Tax'
+    },
+    {
+    id: 'Transport',
+    text: 'Transport'
+    },
+
+]
+
+
+export default function DemoHeader({ icon, onFilter, onSort }) {
     const [show, setShow] = React.useState({
         sort: false,
         filter: false,
-    });
+    } );
+    const [ selectedFilters, setSelectedFilters ] = React.useState( [] );
 
     const toggleSort = () => {
         setShow(prevState => ({
@@ -21,12 +75,31 @@ export default function DemoHeader({ icon }) {
         }));
     };
 
+    const handleSortClick = (order) => {
+        onSort(order);
+        setShow(prevState => ({ ...prevState, sort: false }));
+    };
+
+    const handleFilterChange = (e) => {
+        const { value, checked } = e.target;
+        let updatedFilters = [...selectedFilters];
+
+        if (checked) {
+            updatedFilters.push(value);
+        } else {
+            updatedFilters = updatedFilters.filter(filter => filter !== value);
+        }
+
+        setSelectedFilters(updatedFilters);
+        onFilter(updatedFilters); 
+    };
+
     return (
         <div className="flex items-center justify-between gap-2  py-4 px-4 rounded-md bg-slate-200">
-                {/* Icon Section */}
+            {/* Icon Section */ }
             <div className="flex items-center gap-2">
                 <div className="h-10 w-10 bg-teal-600 text-white rounded-md text-center object-center place-content-center text-base">
-                    {icon ? (
+                    { icon ? (
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -62,21 +135,21 @@ export default function DemoHeader({ icon }) {
                             <path d="M16 12h4v4m-4 0a2 2 0 0 1 -2 -2" />
                             <path d="M3 3l18 18" />
                         </svg>
-                    )}
+                    ) }
                 </div>
                 <div>
                     <h3 className="text-xl font-semibold leading-7 text-gray-800">
-                        {icon ? "Income" : "Expense"}
+                        { icon ? "Income" : "Expense" }
                     </h3>
                 </div>
             </div>
 
-            {/* Sort and Filter Section */}
+            {/* Sort and Filter Section */ }
             <div className="flex gap-1">
-                {/* Sorting Dropdown */}
+                {/* Sorting Dropdown */ }
                 <div className="relative inline-block text-left">
                     <button
-                        onClick={toggleSort}
+                        onClick={ toggleSort }
                         type="button"
                         className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                         id="menu-button"
@@ -104,9 +177,8 @@ export default function DemoHeader({ icon }) {
                         </svg>
                     </button>
                     <div
-                        className={`${
-                            show.sort ? "absolute" : "hidden"
-                        } z-10 mt-2 left-5 w-56 origin-top-right rounded-md bg-slate-300 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+                        className={ `${show.sort ? "absolute" : "hidden"
+                            } z-10 mt-2 left-5 w-56 origin-top-right rounded-md bg-slate-300 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none` }
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="menu-button"
@@ -114,6 +186,7 @@ export default function DemoHeader({ icon }) {
                     >
                         <div className="py-1" role="none">
                             <a
+                                onClick={ () => handleSortClick( 'asc' ) }
                                 href="#"
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-all"
                                 role="menuitem"
@@ -123,6 +196,7 @@ export default function DemoHeader({ icon }) {
                                 Low to High
                             </a>
                             <a
+                                onClick={ () => handleSortClick( 'desc' ) }
                                 href="#"
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-all"
                                 role="menuitem"
@@ -135,10 +209,10 @@ export default function DemoHeader({ icon }) {
                     </div>
                 </div>
 
-                {/* Filtering Dropdown */}
+                {/* Filtering Dropdown */ }
                 <div className="relative inline-block text-left">
                     <button
-                        onClick={toggleFilter}
+                        onClick={ toggleFilter }
                         type="button"
                         className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                         id="filter-button"
@@ -171,9 +245,8 @@ export default function DemoHeader({ icon }) {
                     </button>
 
                     <div
-                        className={`${
-                            show.filter ? "absolute" : "hidden"
-                        } right-0 z-10 mt-2 w-56 origin-top-right rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none bg-slate-300`}
+                        className={ `${show.filter ? "absolute" : "hidden"
+                            } right-0 z-10 mt-2 w-56 origin-top-right rounded-md  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none bg-slate-300` }
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="filter-button"
@@ -181,22 +254,25 @@ export default function DemoHeader({ icon }) {
                         id="filter-dropdown"
                     >
                         <div className="py-1" role="none">
-                            <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
-                                <input
-                                    type="checkbox"
-                                    className="form-checkbox h-4 w-4 rounded-md text-gray-600"
-                                    id="filter-option-1"
-                                />
-                                <span className="ml-2">Salary</span>
-                            </label>
-                            <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
-                                <input
-                                    type="checkbox"
-                                    className="form-checkbox h-4 w-4 rounded-md text-gray-600"
-                                    id="filter-option-2"
-                                />
-                                <span className="ml-2">Outsourcing</span>
-                            </label>
+                            { icon ? (
+                                IncomeOptions?.map( ( filter, index ) => (
+                                    <FilterField
+                                        key={ index }
+                                        handleFilterChange={ handleFilterChange }
+                                        id={ filter.id }
+                                        text={ filter.text }
+                                    />
+                                ) )
+                            ) : (
+                                ExpenseOptions?.map( ( filter, index ) => (
+                                    <FilterField
+                                        key={ index }
+                                        handleFilterChange={ handleFilterChange }
+                                        id={ filter.id }
+                                        text={ filter.text }
+                                    />
+                                ) )
+                            ) }
                         </div>
                     </div>
                 </div>
