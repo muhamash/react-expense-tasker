@@ -28,11 +28,15 @@ export default function Parent() {
 
     const handleDelete = ( id ) =>
     {
+        alert( `Do you wanted to delete the entire dataset??` );
+
         setTransactions( transactions.filter( ( item ) => item.id !== id ) );
     };
 
     const handleEdit = ( data ) =>
     {
+        alert( `Do you wanted to edit these data? Data: ${data.id}, ${data.category}, ${data.amount}, ${data.date}` );
+
         setEditTransaction( data );
         setFormData( { category: data.category, amount: data.amount, date: data.date } );
         setSelectedType( data.type );
@@ -59,6 +63,8 @@ export default function Parent() {
                 ? prev.map( ( item ) => ( item.id === editTransaction.id ? updatedTransaction : item ) )
                 : [ ...prev, updatedTransaction ]
         );
+
+        alert( `Form is submitting with ->  ${editTransaction ? "Edited Data": selectedType}: Id: ${updatedTransaction.id} ; Category: ${updatedTransaction.category} ; Amount: ${updatedTransaction.amount} ; Date: ${updatedTransaction.date} ` );
 
         resetForm();
     };

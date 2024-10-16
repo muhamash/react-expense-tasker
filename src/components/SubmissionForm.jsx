@@ -20,15 +20,16 @@ export default function SubmissionForm({ onFormSubmit, selectedType, editData, s
         } ) );
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = ( e ) =>
+    {
         e.preventDefault();
         onFormSubmit();
     };
 
-    const formatDateForForm = (dateString) => {
-        const date = new Date(dateString);
-        return date.toISOString().split('T')[0];
-    };
+    // const formatDateForForm = (dateString) => {
+    //     const date = new Date(dateString);
+    //     return date.toISOString().split('T')[0];
+    // };
 
     console.log( formData );
 
@@ -89,6 +90,7 @@ export default function SubmissionForm({ onFormSubmit, selectedType, editData, s
                     <label htmlFor="amount" className="block text-sm font-medium leading-6 text-gray-900">Amount</label>
                     <div className="mt-2">
                         <input
+                            required
                             id="amount"
                             placeholder="1234567890"
                             name="amount"
@@ -104,10 +106,11 @@ export default function SubmissionForm({ onFormSubmit, selectedType, editData, s
                     <label htmlFor="date" className="block text-sm font-medium leading-6 text-gray-900">Date</label>
                     <div className="mt-2">
                         <input
+                            required
                             id="date"
                             name="date"
                             type="date"
-                            value={ editData ? formatDateForForm( editData.date ) : formData.date }
+                            value={ formData.date }
                             onChange={ handleChange }
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
                         />
